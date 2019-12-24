@@ -1,2 +1,2 @@
 # tumh
-Experimental App written with Flutter
+Experimental App writte with Flutter to help organization of different lectures at univer
