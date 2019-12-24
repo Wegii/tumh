@@ -1,0 +1,33 @@
+name: tumh
+description: TUM helper app
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # The following provides a api to the native browser provided by android.
+  flutter_inappwebview: ^2.1.0
+  # The following allows to create cookie aware http/s calls.
+  requests: ^3.0.3
+  # The following allows to use google fonts
+  google_fonts: ^0.2.0
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+# The following section is specific to Flutter.
+flutter:
+
+  # Ensures that the Material Icons font is included, so that  icons in the material Icons class
+  # can be used.
+  uses-material-design: true
+
+  # Add assets to the application
+  assets:
+    - assets/images/
