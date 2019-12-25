@@ -112,6 +112,7 @@ final courses = [
     linkTutorial: "https://www.moodle.tum.de/course/view.php?id=47222",
     linkStream: "https://www.moodle.tum.de/mod/lti/view.php?id=992352",
     daysLecture: {Day.Tue, Day.Fri},
+    tasks: minimalTasks
   ),
 ];
 
@@ -139,4 +140,9 @@ final simpleTasks = [
   Task(name: "Went to Tutorial", isSet: false),
   Task(name: "Did Homework", isSet: false),
   Task(name: "Went to Tutorial", isSet: false),
+];
+
+final minimalTasks = [
+  Task(name: "Went to first Lecture", isSet: false),
+  Task(name: "Went to second Lecture", isSet: false)
 ];
