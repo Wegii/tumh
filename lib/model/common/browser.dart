@@ -19,10 +19,11 @@ class ChromeBrowser extends ChromeSafariBrowser {
   void onClosed() async {
     moodle = new MoodleAPI();
 
-     print(await moodle.getMoodleSession());
+    print(await moodle.getMoodleSession());
 
-    var r1 = await Requests.post("https://moodle.tum.de/my/", json: {"MoodleSession":await moodle.getMoodleSession()} );
-   printWrapped(r1.content());
+    var r1 = await Requests.post("https://moodle.tum.de/my/",
+        json: {"MoodleSession": await moodle.getMoodleSession()});
+    //printWrapped(r1.content());
   }
 
   void printWrapped(String text) {
@@ -30,3 +31,5 @@ class ChromeBrowser extends ChromeSafariBrowser {
     pattern.allMatches(text).forEach((match) => print(match.group(0)));
   }
 }
+
+final ChromeSafariBrowser browser = new ChromeBrowser(new Browser());
