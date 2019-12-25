@@ -23,7 +23,6 @@ class ChromeBrowser extends ChromeSafariBrowser {
 
     var r1 = await Requests.post("https://moodle.tum.de/my/",
         json: {"MoodleSession": await moodle.getMoodleSession()});
-    //printWrapped(r1.content());
   }
 
   void printWrapped(String text) {
