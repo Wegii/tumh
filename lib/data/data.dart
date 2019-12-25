@@ -8,7 +8,7 @@ class Course {
   final String linkWebsite;
   final Set<Day> daysLecture;
   final Day dayTutorial;
-  final Day dayHomework;
+  final int dayHomework;
   final List<Task> tasks;
 
   const Course(
@@ -30,17 +30,17 @@ class Task {
   const Task({this.name, this.isSet});
 }
 
+class EventDisplay {
+  final String title;
+  final String content;
+  final String start;
+
+  const EventDisplay({this.title, this.content, this.start});
+}
+
 enum Day { Mon, Tue, Wed, Thu, Fri, Sat, Sun }
 
-final week = [
-  "Mon",
-  "Tue",
-  "Wed",
-  "Thu",
-  "Fri",
-  "Sat",
-  "Sun"
-];
+final week = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 final colours = [
   Color(0xFF464178),
@@ -48,6 +48,7 @@ final colours = [
   Color(0xFF36E0B3),
   Color(0xFFF1A163),
 ];
+
 
 final courses = [
   Course(
@@ -58,7 +59,7 @@ final courses = [
       linkWebsite: "https://db.in.tum.de/teaching/ws1920/grundlagen/",
       daysLecture: {Day.Wed},
       dayTutorial: Day.Mon,
-      dayHomework: Day.Mon,
+      dayHomework: 0,
       tasks: genericTasks),
   Course(
       name: "GBS",
@@ -68,7 +69,7 @@ final courses = [
       linkWebsite: "http://gbs.cm.in.tum.de/",
       daysLecture: {Day.Mon, Day.Wed},
       dayTutorial: Day.Mon,
-      dayHomework: Day.Wed,
+      dayHomework: 2,
       tasks: genericTasks),
   Course(
       name: "NumPro",
@@ -88,7 +89,7 @@ final courses = [
       linkWebsite: "https://vmnipkow3.in.tum.de/web/",
       daysLecture: {Day.Fri},
       dayTutorial: Day.Mon,
-      dayHomework: Day.Mon,
+      dayHomework: 0,
       tasks: genericSimpleTasks),
   Course(
       name: "EXP3",
@@ -96,7 +97,7 @@ final courses = [
       linkTutorial: "https://www.moodle.tum.de/course/view.php?id=47219",
       daysLecture: {Day.Mon, Day.Thu},
       dayTutorial: Day.Mon,
-      dayHomework: Day.Sat,
+      dayHomework: 6,
       tasks: basicTasks),
   Course(
       name: "ANA3",
@@ -107,13 +108,12 @@ final courses = [
       daysLecture: {Day.Tue, Day.Thu},
       tasks: basicTasks),
   Course(
-    name: "THEO2",
-    linkLecture: "https://www.moodle.tum.de/course/view.php?id=47222",
-    linkTutorial: "https://www.moodle.tum.de/course/view.php?id=47222",
-    linkStream: "https://www.moodle.tum.de/mod/lti/view.php?id=992352",
-    daysLecture: {Day.Tue, Day.Fri},
-    tasks: minimalTasks
-  ),
+      name: "THEO2",
+      linkLecture: "https://www.moodle.tum.de/course/view.php?id=47222",
+      linkTutorial: "https://www.moodle.tum.de/course/view.php?id=47222",
+      linkStream: "https://www.moodle.tum.de/mod/lti/view.php?id=992352",
+      daysLecture: {Day.Tue, Day.Fri},
+      tasks: minimalTasks),
 ];
 
 final genericTasks = [
