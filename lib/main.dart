@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tumh/model/landing.dart';
 import 'model/page.dart';
 import 'model/home.dart';
-import 'model/landing.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -13,8 +11,7 @@ void main() {
         primarySwatch: Colors.blue,
         fontFamily: 'Oxygen'),
     routes: {
-      '/': (context) => LandingPage(),
-      '/home': (context) => HomePage(),
+      '/': (context) => HomePage(),
       '/page': (context) => Page(),
     },
   ));
