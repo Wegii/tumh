@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:tumh/data/data.dart';
 
-import 'package:tumh/model/common/browser.dart';
+import 'package:tumh/data/data.dart';
 import 'package:tumh/model/common/theme.dart';
 import 'package:tumh/model/common/helper.dart';
 
 class Page extends StatefulWidget {
-  final ChromeSafariBrowser browser = new ChromeBrowser(new Browser());
   final int index;
 
   Page({@required this.index}) : super();
@@ -17,12 +14,11 @@ class Page extends StatefulWidget {
 }
 
 class _PageState extends State<Page> {
-  static bool f1 = false;
-  static bool f2 = false;
-  static bool f3 = false;
-  int index;
+  static List<bool> _isChecked = List<bool>();
+  int _index;
+  int _numberOfDays = 5;
 
-  _PageState(this.index);
+  _PageState(this._index);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +43,7 @@ class _PageState extends State<Page> {
                         width: 10,
                       ),
                       Text(
-                        courses[index].name,
+                        courses[_index].name,
                         style: header,
                       )
                     ],
@@ -55,16 +51,16 @@ class _PageState extends State<Page> {
                   ),
                 ),
                 Row(
-                  children: <Widget>[calendarRow()],
+                  children: <Widget>[createCalendarRow()],
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 Container(
                   alignment: Alignment.bottomLeft,
                   child: Padding(
                       padding: const EdgeInsets.only(left: 20),
-                      child: Text("Your activities",
+                      child: Text("Available information",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w600,
@@ -77,21 +73,18 @@ class _PageState extends State<Page> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: <Widget>[
-                      Container(height: 190, width: 160, child: moodle1()),
-                      Container(height: 190, width: 160, child: moodle2()),
-                      Container(height: 190, width: 160, child: website()),
-                      Container(height: 190, width: 160, child: stream())
+                      Row(children: <Widget>[createTiles(courses[_index])])
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 40,
                 ),
                 Container(
                   alignment: Alignment.bottomLeft,
                   child: Padding(
                       padding: const EdgeInsets.only(left: 20),
-                      child: Text("Your tasks",
+                      child: Text("Weekly tasks",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w600,
@@ -100,11 +93,7 @@ class _PageState extends State<Page> {
                 Container(
                     alignment: Alignment.bottomLeft,
                     child: Column(
-                      children: <Widget>[
-                        task1(),
-                        task2(),
-                        task3()
-                      ],
+                      children: <Widget>[createTasks(courses[_index])],
                     ))
               ],
             ),
@@ -115,417 +104,106 @@ class _PageState extends State<Page> {
     return page;
   }
 
-  openMoodle() async {
-    await widget.browser.open(
-        url: "https://www.moodle.tum.de/",
-        options: ChromeSafariBrowserClassOptions(
-            androidChromeCustomTabsOptions:
-                AndroidChromeCustomTabsOptions(addShareButton: false),
-            iosSafariOptions: IosSafariOptions(barCollapsingEnabled: true)));
+  Checkbox createCheckbox(int index) => new Checkbox(
+        value: _isChecked[index],
+        onChanged: (bool value) {
+          setState(() {
+            _isChecked[index] = value;
+          });
+        },
+        checkColor: Colors.white,
+        activeColor: Color(0xFF464178),
+      );
+
+  Row createTiles(Course course) {
+    List<Widget> tiles = new List<Widget>();
+
+    if (course.linkLecture != null) {
+      tiles.add(createContainer(website(
+        "Lecture",
+        "",
+        course.linkLecture,
+        colours[0 % colours.length],
+        Icons.work,
+        null,
+      )));
+    }
+    if (course.linkTutorial != null) {
+      tiles.add(createContainer(website("Tutorial", "", course.linkTutorial,
+          colours[1 % colours.length], Icons.web, null)));
+    }
+
+    if (course.linkStream != null) {
+      tiles.add(createContainer(website("Stream", "", course.linkStream,
+          colours[2 % colours.length], Icons.video_library, null)));
+    }
+
+    if (course.linkWebsite != null) {
+      tiles.add(createContainer(website("Website", "", course.linkWebsite,
+          colours[3 % colours.length], Icons.home, null)));
+    }
+
+    return new Row(
+      children: tiles,
+    );
   }
 
-  Widget calendarRow() => Flexible(
-      child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(width: 10, color: Color(0xFF1A1E21)),
-            borderRadius: const BorderRadius.all(const Radius.circular(8)),
-          ),
-          margin: const EdgeInsets.all(4),
-          child: GestureDetector(
-            onTap: () => {print("pressed")},
-            child: Material(
-              elevation: 4,
-              borderRadius: const BorderRadius.all(Radius.circular(12)),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius:
-                      const BorderRadius.all(const Radius.circular(8)),
-                  color: Color(0xFF272E32),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          day,
-                          day,
-                          daytoday,
-                          day,
-                          day,
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          )));
+  Container createContainer(Widget child) {
+    return Container(
+      height: 190,
+      width: 160,
+      child: child,
+    );
+  }
 
-  Widget website() => Container(
-        decoration: BoxDecoration(
-          border: Border.all(width: 5, color: Color(0xFF1A1E21)),
-          borderRadius: const BorderRadius.all(const Radius.circular(8)),
-        ),
-        margin: const EdgeInsets.all(4),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Page()),
-            );
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(30)),
-              color: Color(0xFF464178),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 16.0, right: 16.0, top: 16.0, bottom: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 60,
-                  ),
-                  Text(
-                    "Website",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Text(
-                    "Week 14 - Not Done",
-                    style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
+  Column createTasks(Course course) {
+    List<Widget> tasks = new List<Widget>();
 
-  Widget moodle1() => Container(
-        decoration: BoxDecoration(
-          border: Border.all(width: 5, color: Color(0xFF1A1E21)),
-          borderRadius: const BorderRadius.all(const Radius.circular(8)),
-        ),
-        margin: const EdgeInsets.all(4),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Page()),
-            );
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(30)),
-              color: Color(0xFFDF7B7B),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 16.0, right: 16.0, top: 16.0, bottom: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 60,
-                  ),
-                  Text(
-                    "Moodle",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Text(
-                    "Lecture",
-                    style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
+    int counter = 0;
+    for (Task t in course.tasks) {
+      _isChecked.add(t.isSet);
+      tasks.add(task(t.name, createCheckbox(counter)));
+      counter++;
+    }
 
-  Widget moodle2() => Container(
-    decoration: BoxDecoration(
-      border: Border.all(width: 5, color: Color(0xFF1A1E21)),
-      borderRadius: const BorderRadius.all(const Radius.circular(8)),
-    ),
-    margin: const EdgeInsets.all(4),
-    child: GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Page()),
-        );
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(30)),
-          color: Color(0xFF36E0B3),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(
-              left: 16.0, right: 16.0, top: 16.0, bottom: 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                height: 60,
-              ),
-              Text(
-                "Moodle",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Text(
-                "Tutorial",
-                style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700),
-              ),
-            ],
-          ),
-        ),
-      ),
-    ),
-  );
+    return Column(children: tasks);
+  }
 
-  Widget stream() => Container(
-        decoration: BoxDecoration(
-          border: Border.all(width: 5, color: Color(0xFF1A1E21)),
-          borderRadius: const BorderRadius.all(const Radius.circular(8)),
-        ),
-        margin: const EdgeInsets.all(4),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Page()),
-            );
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(30)),
-              color: Color(0xFFF1A163),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 16.0, right: 16.0, top: 16.0, bottom: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    height: 60,
-                  ),
-                  Text(
-                    "Stream",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Text(
-                    "Week 14 - Not Done",
-                    style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
+  Flexible createCalendarRow() {
+    List<Widget> days = new List<Widget>();
 
-  Widget day = Container(
-      child: Padding(
-    padding: const EdgeInsets.only(left: 6, right: 6),
-    child: CustomPaint(
-      painter: RoundedImageBorder(isOnline: false),
-      child: Container(
-        alignment: Alignment.center,
-        width: 50,
-        height: 50,
-        child: Text(
-          "Mon",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
-        ),
-      ),
-    ),
-  ));
+    // RoundedImageBorder() otherwise
+    // RecImageBorder() for today
+    int weekdayNow = new DateTime.now().weekday - 1;
 
-  Widget daytoday = Container(
-      child: Padding(
-    padding: const EdgeInsets.only(left: 6, right: 6),
-    child: CustomPaint(
-      painter: RecImageBorder(),
-      child: Container(
-        alignment: Alignment.center,
-        width: 50,
-        height: 50,
-        child: Text(
-          "Mon",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
-        ),
-      ),
-    ),
-  ));
+    for (int i = 0; i < _numberOfDays; i++) {
+      if (i != weekdayNow) {
+        switch (i) {
+          case 0:
+            days.add(day("Mon", RoundedImageBorder()));
+            break;
+          case 1:
+            days.add(day("Tue", RoundedImageBorder()));
+            break;
+          case 2:
+            days.add(day("Wed", RoundedImageBorder()));
+            break;
+          case 3:
+            days.add(day("Thu", RoundedImageBorder()));
+            break;
+          case 4:
+            days.add(day("Fri", RoundedImageBorder()));
+            break;
+        }
+      } else {
+        days.add(day(week[i], RecImageBorder()));
+      }
+    }
+    return calendarRow(calendarRow1(days));
+  }
 
-  Widget task1() => Container(
-    decoration: BoxDecoration(
-      border:
-      Border.all(width: 5, color: Color(0xFF1A1E21)),
-      borderRadius: const BorderRadius.all(
-          const Radius.circular(8)),
-    ),
-    margin: const EdgeInsets.all(4),
-    child: Container(
-      decoration: BoxDecoration(
-        borderRadius:
-        const BorderRadius.all(Radius.circular(30)),
-        color: Color(0xFF272E32),
-      ),
-      child: Row(
-        children: <Widget>[
-          new Checkbox(
-            value: f1,
-            onChanged: (bool value) {
-              setState(() {
-                f1 = value;
-              });
-            },
-            checkColor: Colors.white,
-            activeColor: Color(0xFF464178),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text(
-            "Went to Tutorial",
-            style: TextStyle(
-                color: Colors.white70,
-                fontSize: 15,
-                fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    ),
-  );
-
-  Widget task2() => Container(
-    decoration: BoxDecoration(
-      border:
-      Border.all(width: 5, color: Color(0xFF1A1E21)),
-      borderRadius: const BorderRadius.all(
-          const Radius.circular(8)),
-    ),
-    margin: const EdgeInsets.all(4),
-    child: Container(
-      decoration: BoxDecoration(
-        borderRadius:
-        const BorderRadius.all(Radius.circular(30)),
-        color: Color(0xFF272E32),
-      ),
-      child: Row(
-        children: <Widget>[
-          new Checkbox(
-            value: f2,
-            onChanged: (bool value) {
-              setState(() {
-                f2 = value;
-              });
-            },
-            checkColor: Colors.white,
-            activeColor: Color(0xFF464178),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text(
-            "Done Homework",
-            style: TextStyle(
-                color: Colors.white70,
-                fontSize: 15,
-                fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    ),
-  );
-
-  Widget task3() => Container(
-    decoration: BoxDecoration(
-      border:
-      Border.all(width: 5, color: Color(0xFF1A1E21)),
-      borderRadius: const BorderRadius.all(
-          const Radius.circular(8)),
-    ),
-    margin: const EdgeInsets.all(4),
-    child: Container(
-      decoration: BoxDecoration(
-        borderRadius:
-        const BorderRadius.all(Radius.circular(30)),
-        color: Color(0xFF272E32),
-      ),
-      child: Row(
-        children: <Widget>[
-          new Checkbox(
-            value: f3,
-            onChanged: (bool value) {
-              setState(() {
-                f3 = value;
-              });
-            },
-            checkColor: Colors.white,
-            activeColor: Color(0xFF464178),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text(
-            "Watched Livestream",
-            style: TextStyle(
-                color: Colors.white70,
-                fontSize: 15,
-                fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    ),
-  );
-
+  Row calendarRow1(List<Widget> days) => Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: days
+    );
 }
