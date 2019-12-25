@@ -32,6 +32,16 @@ class Task {
 
 enum Day { Mon, Tue, Wed, Thu, Fri, Sat, Sun }
 
+final week = [
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat",
+  "Sun"
+];
+
 final colours = [
   Color(0xFF464178),
   Color(0xFFDF7B7B),
