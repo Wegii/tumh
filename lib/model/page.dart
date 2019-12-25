@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:tumh/data/data.dart';
-import 'package:tumh/model/common/theme.dart';
+import 'package:tumh/theme.dart';
 import 'package:tumh/model/common/helper.dart';
 
 class Page extends StatefulWidget {
   final int index;
+
 
   Page({@required this.index}) : super();
 

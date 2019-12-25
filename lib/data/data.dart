@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Course {
   final String name;
   final String linkLecture;
@@ -42,12 +40,7 @@ enum Day { Mon, Tue, Wed, Thu, Fri, Sat, Sun }
 
 final week = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-final colours = [
-  Color(0xFF464178),
-  Color(0xFFDF7B7B),
-  Color(0xFF36E0B3),
-  Color(0xFFF1A163),
-];
+final String username = "my friend";
 
 
 final courses = [

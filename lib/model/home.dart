@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tumh/data/calendar.dart';
 
-import 'package:tumh/model/common/theme.dart';
+import 'package:tumh/theme.dart';
 import 'package:tumh/data/data.dart';
 import 'package:tumh/model/common/helper.dart';
 
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: <Widget>[
                       Row(children: <Widget>[
-                        Text("Good day,\nPeter", style: header)
+                        Text("Good day,\n$username", style: header)
                       ])
                     ],
                   ),
@@ -104,12 +104,13 @@ class _HomePageState extends State<HomePage> {
       if (eventList.length != 0) {
         EventDisplay event = eventList.first;
 
-        print(event.title);
         events.add(Container(
           height: 200,
           width: 360,
           child: coloredTileFullWidth(now.day, getMonthName(now.month),
-              event.title, event.content + " " + event.start, () => {}),
+              event.title, ((event.content.length <= 60)
+                  ? event.content
+                  : event.content.substring(0, 60)[0]) + " " + event.start, ()=>{openCalendar()}),
         ));
       } else {
         events.add(Container(

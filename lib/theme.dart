@@ -13,8 +13,8 @@ BoxDecoration bord() {
 }
 
 TextStyle header = GoogleFonts.roboto(
-    textStyle: TextStyle(color: Colors.white, fontSize: 35, fontWeight: FontWeight.w600)
-);
+    textStyle: TextStyle(
+        color: Colors.white, fontSize: 35, fontWeight: FontWeight.w600));
 
 TextStyle header1 = GoogleFonts.lato(
     textStyle: TextStyle(color: Colors.white, letterSpacing: .5),
@@ -28,3 +28,14 @@ TextStyle bodyTextStyle = TextStyle(
   color: Colors.grey.shade600,
 );
 
+final theme = ThemeData(
+    canvasColor: Colors.white,
+    primarySwatch: Colors.blue,
+    fontFamily: 'Oxygen');
+
+final colours = [
+  Color(0xFF464178),
+  Color(0xFFDF7B7B),
+  Color(0xFF36E0B3),
+  Color(0xFFF1A163),
+];

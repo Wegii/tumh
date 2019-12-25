@@ -1,12 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:tumh/data/data.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_appavailability/flutter_appavailability.dart';
 
 import 'package:tumh/model/page.dart';
 import 'package:tumh/model/common/browser.dart';
-import 'package:tumh/data/calendar.dart';
 
 class RoundedImageBorder extends CustomPainter {
   final Color color;
@@ -193,7 +195,7 @@ Widget coloredTileHalfWidth(int index, Color color, BuildContext context) =>
                       height: 4,
                     ),
                     Text(
-                      "asd",//getDeadline(courses[index].dayHomework),
+                      getDeadline(courses[index].dayHomework),
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 55,
@@ -218,7 +220,6 @@ Widget coloredTileHalfWidth(int index, Color color, BuildContext context) =>
 
 String getDeadline(int deadline) {
   DateTime now = DateTime.now();
-  print(deadline.toString() + " deadline");
 
   if (deadline != null) {
     if (now.weekday > deadline) {
@@ -375,4 +376,14 @@ openBrowser(String link) async {
           androidChromeCustomTabsOptions:
               AndroidChromeCustomTabsOptions(addShareButton: false),
           iosSafariOptions: IosSafariOptions(barCollapsingEnabled: true)));
+}
+
+Future<void> openCalendar() async {
+  if (Platform.isAndroid) {
+    AppAvailability.launchApp("com.google.android.calendar")
+        .then((_) {})
+        .catchError((err) {
+      // Do nothing as Google Calendar is not installed
+    });
+  }
 }
