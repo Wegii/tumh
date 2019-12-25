@@ -8,6 +8,10 @@ import 'package:tumh/model/page.dart';
 import 'package:tumh/model/common/browser.dart';
 
 class RoundedImageBorder extends CustomPainter {
+  final Color color;
+
+  RoundedImageBorder({this.color});
+
   @override
   void paint(Canvas canvas, Size size) {
     Offset center = Offset(size.width / 2, size.height / 2);
@@ -15,9 +19,9 @@ class RoundedImageBorder extends CustomPainter {
     Paint borderPaint = Paint()
       ..strokeCap = StrokeCap.butt
       ..style = PaintingStyle.fill
-      ..strokeWidth = 4.0;
+      ..strokeWidth = 4.0
+      ..color = color;
 
-    borderPaint.color = Color(0xFF7B778E);
     canvas.drawArc(Rect.fromCircle(center: center, radius: size.width / 2),
         math.radians(-90), math.radians(360), false, borderPaint);
   }
@@ -38,9 +42,9 @@ class RecImageBorder extends CustomPainter {
     Paint borderPaint = Paint()
       ..strokeCap = StrokeCap.butt
       ..style = PaintingStyle.fill
-      ..strokeWidth = 4.0;
+      ..strokeWidth = 4.0
+      ..color = Color(0xFF464178);
 
-    borderPaint.color = Color(0xFF464178);
     canvas.drawRRect(
       new RRect.fromLTRBAndCorners(0.0, 0.0, 50, 50,
           bottomLeft: Radius.circular(15),
@@ -191,7 +195,8 @@ Widget coloredTileHalfWidth(int index, Color color, BuildContext context) =>
                       height: 60,
                     ),
                     Text(
-                      "Week 14 - Not Done",
+                      // TODO: Fill with correct text
+                      "",
                       style: TextStyle(
                           color: Colors.white70,
                           fontSize: 12,
@@ -224,10 +229,7 @@ Widget calendarRow(Row row) => Flexible(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: row
-                  ),
+                  Padding(padding: const EdgeInsets.only(top: 10), child: row),
                   SizedBox(
                     height: 15,
                   ),
@@ -238,23 +240,23 @@ Widget calendarRow(Row row) => Flexible(
         )));
 
 Widget day(String name, CustomPainter shape) => Container(
-    child: Padding(
-  padding: const EdgeInsets.only(left: 6, right: 6),
-  child: CustomPaint(
-    painter: shape,
-    child: Container(
-      alignment: Alignment.center,
-      width: 50,
-      height: 50,
-      child: Text(
-        name,
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
+        child: Padding(
+      padding: const EdgeInsets.only(left: 6, right: 6),
+      child: CustomPaint(
+        painter: shape,
+        child: Container(
+          alignment: Alignment.center,
+          width: 50,
+          height: 50,
+          child: Text(
+            name,
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
+          ),
+        ),
       ),
-    ),
-  ),
-));
+    ));
 
-Widget task(String name, Checkbox checkbox) => Container(
+Widget task(String name, Center checkbox) => Container(
       decoration: BoxDecoration(
         border: Border.all(width: 5, color: Color(0xFF1A1E21)),
         borderRadius: const BorderRadius.all(const Radius.circular(8)),
@@ -314,8 +316,7 @@ Widget website(String name, String subtitle, String link, Color color,
                   children: <Widget>[
                     Padding(
                         padding: const EdgeInsets.only(left: 10),
-                        child:
-                            circledIcon(icon, Color(0x66584b4b), 45, 30))
+                        child: circledIcon(icon, Color(0x66584b4b), 45, 30))
                   ],
                 ),
                 SizedBox(

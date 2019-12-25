@@ -51,7 +51,7 @@ class _PageState extends State<Page> {
                   ),
                 ),
                 Row(
-                  children: <Widget>[createCalendarRow()],
+                  children: <Widget>[createCalendarRow(courses[_index])],
                 ),
                 SizedBox(
                   height: 40,
@@ -104,16 +104,29 @@ class _PageState extends State<Page> {
     return page;
   }
 
-  Checkbox createCheckbox(int index) => new Checkbox(
-        value: _isChecked[index],
-        onChanged: (bool value) {
-          setState(() {
-            _isChecked[index] = value;
-          });
-        },
-        checkColor: Colors.white,
-        activeColor: Color(0xFF464178),
-      );
+  Widget createCheckbox(int index) => Center(
+      child: InkWell(
+          onTap: () {
+            setState(() {
+              _isChecked[index] = !_isChecked[index];
+            });
+          },
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _isChecked[index]
+                  ? Icon(
+                Icons.check_box,
+                size: 25.0,
+                color: Color(0xFF464178),
+              )
+                  : Icon(
+                Icons.check_box_outline_blank,
+                size: 25.0,
+                color: Color(0xFF464178),
+              ),
+            ),
+          )));
 
   Row createTiles(Course course) {
     List<Widget> tiles = new List<Widget>();
@@ -169,7 +182,7 @@ class _PageState extends State<Page> {
     return Column(children: tasks);
   }
 
-  Flexible createCalendarRow() {
+  Flexible createCalendarRow(Course course) {
     List<Widget> days = new List<Widget>();
 
     // RoundedImageBorder() otherwise
@@ -177,22 +190,33 @@ class _PageState extends State<Page> {
     int weekdayNow = new DateTime.now().weekday - 1;
 
     for (int i = 0; i < _numberOfDays; i++) {
+      Color color = Color(0xFF7B778E);
+
+      // Special coloring for specific days
+      if (course.daysLecture.contains(Day.values[i])) {
+        color = Color(0xFF123456);
+      } else if (course.dayTutorial == Day.values[i]) {
+        color = Color(0xFF623456);
+      } else if (course.dayHomework == Day.values[i]) {
+        color = Color(0xFF934496);
+      }
+
       if (i != weekdayNow) {
         switch (i) {
           case 0:
-            days.add(day("Mon", RoundedImageBorder()));
+            days.add(day(week[i], RoundedImageBorder(color: color)));
             break;
           case 1:
-            days.add(day("Tue", RoundedImageBorder()));
+            days.add(day(week[i], RoundedImageBorder(color: color)));
             break;
           case 2:
-            days.add(day("Wed", RoundedImageBorder()));
+            days.add(day(week[i], RoundedImageBorder(color: color)));
             break;
           case 3:
-            days.add(day("Thu", RoundedImageBorder()));
+            days.add(day(week[i], RoundedImageBorder(color: color)));
             break;
           case 4:
-            days.add(day("Fri", RoundedImageBorder()));
+            days.add(day(week[i], RoundedImageBorder(color: color)));
             break;
         }
       } else {
@@ -202,8 +226,6 @@ class _PageState extends State<Page> {
     return calendarRow(calendarRow1(days));
   }
 
-  Row calendarRow1(List<Widget> days) => Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: days
-    );
+  Row calendarRow1(List<Widget> days) =>
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: days);
 }
