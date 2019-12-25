@@ -6,6 +6,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'package:tumh/model/page.dart';
 import 'package:tumh/model/common/browser.dart';
+import 'package:tumh/data/calendar.dart';
 
 class RoundedImageBorder extends CustomPainter {
   final Color color;
@@ -61,79 +62,86 @@ class RecImageBorder extends CustomPainter {
   }
 }
 
-Widget coloredTileFullWidth() => Container(
-    decoration: BoxDecoration(
-      border: Border.all(width: 10, color: Color(0xFF1A1E21)),
-      borderRadius: const BorderRadius.all(const Radius.circular(8)),
-    ),
-    margin: const EdgeInsets.all(4),
-    child: GestureDetector(
-      onTap: () => {print("pressed")},
-      child: Material(
-        elevation: 0,
-        color: Color(0xff18181B),
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-        child: Container(
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(const Radius.circular(10)),
-                color: Color(0xFF272E32)),
-            child: Padding(
-                padding: const EdgeInsets.only(left: 20.0, top: 20),
-                child: Row(
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+Widget coloredTileFullWidth(int day, String month, String title, String content,
+        Function function) =>
+    Container(
+        decoration: BoxDecoration(
+          border: Border.all(width: 10, color: Color(0xFF1A1E21)),
+          borderRadius: const BorderRadius.all(const Radius.circular(8)),
+        ),
+        margin: const EdgeInsets.all(4),
+        child: GestureDetector(
+          onTap: () => {function()},
+          child: Material(
+            elevation: 0,
+            color: Color(0xff18181B),
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            child: Container(
+                decoration: BoxDecoration(
+                    borderRadius:
+                        const BorderRadius.all(const Radius.circular(10)),
+                    color: Color(0xFF272E32)),
+                child: Padding(
+                    padding:
+                        const EdgeInsets.only(left: 30.0, top: 20, right: 10),
+                    child: Row(
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              "31",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 45,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                        Expanded(
+                          flex: 7,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Text(
+                                    day.toString(),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 45,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                month,
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Text(
+                                title,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15),
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                content,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 15),
+                              )
+                            ],
+                          ),
                         ),
-                        Text(
-                          "December",
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Text(
-                          "2020 Countdown",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15),
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          "Town square 22:00",
-                          style: TextStyle(color: Colors.white, fontSize: 15),
-                        )
+                        Expanded(
+                            flex: 3,
+                            child: Column(
+                              children: <Widget>[
+                                SizedBox(
+                                  height: 40,
+                                ),
+                                circledIcon(Icons.keyboard_arrow_right,
+                                    Color(0xFF1A1E21), 50, 30)
+                              ],
+                            ))
                       ],
-                    ),
-                    SizedBox(
-                      width: 110,
-                    ),
-                    Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 40,
-                        ),
-                        circledIcon(Icons.keyboard_arrow_right,
-                            Color(0xFF1A1E21), 50, 30)
-                      ],
-                    )
-                  ],
-                ))),
-      ),
-    ));
+                    ))),
+          ),
+        ));
 
 ClipOval circledIcon(
         IconData icon, Color color, double sizeCircle, double sizeIcon) =>
@@ -185,22 +193,21 @@ Widget coloredTileHalfWidth(int index, Color color, BuildContext context) =>
                       height: 4,
                     ),
                     Text(
-                      index.toString(),
+                      "asd",//getDeadline(courses[index].dayHomework),
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 50,
-                          fontWeight: FontWeight.bold),
+                          fontSize: 55,
+                          fontWeight: FontWeight.w900),
                     ),
                     SizedBox(
                       height: 60,
                     ),
                     Text(
-                      // TODO: Fill with correct text
-                      "",
+                      "Days until deadline",
                       style: TextStyle(
-                          color: Colors.white70,
+                          color: Colors.black,
                           fontSize: 12,
-                          fontWeight: FontWeight.w700),
+                          fontWeight: FontWeight.w800),
                     ),
                   ],
                 ),
@@ -208,6 +215,21 @@ Widget coloredTileHalfWidth(int index, Color color, BuildContext context) =>
             ),
           )),
     );
+
+String getDeadline(int deadline) {
+  DateTime now = DateTime.now();
+  print(deadline.toString() + " deadline");
+
+  if (deadline != null) {
+    if (now.weekday > deadline) {
+      return (deadline + (7 - now.weekday)).toString();
+    } else {
+      return (deadline - now.weekday).toString();
+    }
+  }
+
+  return "/";
+}
 
 Widget calendarRow(Row row) => Flexible(
     child: Container(
@@ -217,7 +239,7 @@ Widget calendarRow(Row row) => Flexible(
         ),
         margin: const EdgeInsets.all(4),
         child: GestureDetector(
-          onTap: () => {print("pressed")},
+          onTap: () => {},
           child: Material(
             elevation: 4,
             borderRadius: const BorderRadius.all(Radius.circular(12)),

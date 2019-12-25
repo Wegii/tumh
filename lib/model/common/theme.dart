@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const String profile = "assets/images/owl.jpg";
-const String landingPage_background = "assets/images/dr.png";
-
 Color firstColor = Color(0XFFFC4A1F);
 Color secondColor = Color(0XFFAF1055);
 Color tertiaryTextColor = Color(0XFFA7A7A7);
