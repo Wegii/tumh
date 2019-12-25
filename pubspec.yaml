@@ -15,6 +15,10 @@ dependencies:
   requests: ^3.0.3
   # The following allows to use google fonts
   google_fonts: ^0.2.0
+  # The following allows interaction with the google calendar app
+  device_calendar: ^1.0.0
+  # The following allows to open a existing app
+  flutter_appavailability: ^0.0.21
 
 
 dev_dependencies:
@@ -27,7 +31,3 @@ flutter:
   # Ensures that the Material Icons font is included, so that  icons in the material Icons class
   # can be used.
   uses-material-design: true
-
-  # Add assets to the application
-  assets:
-    - assets/images/
