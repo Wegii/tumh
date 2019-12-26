@@ -21,5 +21,9 @@ The app was tested and developed for the Android platform. It was not tested for
 * Flutter SDK v1.12
 * Android SDK
 
+
+### Development
+This app was developed over two days. More features could be added over time.
+
 ### Acknowledgements
 * [Inspiration](https://www.designbysie.com/)
