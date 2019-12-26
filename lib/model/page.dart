@@ -44,7 +44,7 @@ class _PageState extends State<Page> {
                       ),
                       Text(
                         courses[_index].name,
-                        style: header,
+                        style: welcomeLetter,
                       )
                     ],
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,7 +127,7 @@ class _PageState extends State<Page> {
     if (course.linkLecture != null) {
       tiles.add(createContainer(website(
         "Lecture",
-        "test 123",
+        "Moodle website",
         course.linkLecture,
         colours[0],
         Icons.work,
@@ -135,17 +135,17 @@ class _PageState extends State<Page> {
       )));
     }
     if (course.linkTutorial != null) {
-      tiles.add(createContainer(website("Tutorial", "Moodle website",
+      tiles.add(createContainer(website("Tutorial", "Custom website",
           course.linkTutorial, colours[1 % colours.length], Icons.web, null)));
     }
 
     if (course.linkStream != null) {
-      tiles.add(createContainer(website("Stream", "", course.linkStream,
+      tiles.add(createContainer(website("Stream", "RBG website", course.linkStream,
           colours[2 % colours.length], Icons.video_library, null)));
     }
 
     if (course.linkWebsite != null) {
-      tiles.add(createContainer(website("Website", "", course.linkWebsite,
+      tiles.add(createContainer(website("Website", "Custom website", course.linkWebsite,
           colours[3 % colours.length], Icons.home, null)));
     }
 

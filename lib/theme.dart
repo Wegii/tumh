@@ -33,16 +33,9 @@ TextStyle informationLetter =
 TextStyle subInformationLetter =
     TextStyle(color: Colors.white70, fontSize: 13, fontWeight: FontWeight.w700);
 
-TextStyle header = GoogleFonts.roboto(
+TextStyle welcomeLetter = GoogleFonts.roboto(
     textStyle: TextStyle(
         color: Colors.white, fontSize: 35, fontWeight: FontWeight.w600));
-
-TextStyle header1 = GoogleFonts.lato(
-    textStyle: TextStyle(color: Colors.white, letterSpacing: .5),
-    fontSize: 48,
-    //fontWeight: FontWeight.w700,
-    fontStyle: FontStyle.italic,
-    fontWeight: FontWeight.bold);
 
 TextStyle bodyTextStyle = TextStyle(
   fontSize: 14,
@@ -59,11 +52,6 @@ final colours = [
   Color(0xFFDF7B7B),
   Color(0xFF36E0B3),
   Color(0xFFF1A163),
+  Color(0xFF15799E),
+  Color(0xFF5F2D73)
 ];
-
-BoxDecoration bord() {
-  return BoxDecoration(
-    border: Border.all(color: Colors.white, width: 1.5),
-    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-  );
-}

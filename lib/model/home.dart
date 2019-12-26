@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: <Widget>[
                       Row(children: <Widget>[
-                        Text("Good day,\n$username", style: header)
+                        Text("Good day,\n$username", style: welcomeLetter)
                       ])
                     ],
                   ),
