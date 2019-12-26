@@ -8,6 +8,7 @@ void main() {
     title: 'TUM helper',
     initialRoute: '/',
     theme: theme,
+    debugShowCheckedModeBanner: false,
     routes: {
       '/': (context) => HomePage(),
       '/page': (context) => Page(),

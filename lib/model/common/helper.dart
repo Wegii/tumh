@@ -4,7 +4,8 @@ import 'package:tumh/data/data.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_appavailability/flutter_appavailability.dart';
+import 'package:device_apps/device_apps.dart';
+
 
 import 'package:tumh/model/page.dart';
 import 'package:tumh/model/common/browser.dart';
@@ -69,7 +70,7 @@ class RoundedRectangle extends CustomPainter {
 ///
 /// Returns a container containing the tile.
 Widget coloredTileFullWidth(int day, String month, String title, String content,
-        Function onTouch) =>
+    Function onTouch) =>
     Container(
         decoration: BoxDecoration(
           border: Border.all(width: 10, color: primaryColorBackground),
@@ -85,11 +86,11 @@ Widget coloredTileFullWidth(int day, String month, String title, String content,
             child: Container(
                 decoration: BoxDecoration(
                     borderRadius:
-                        const BorderRadius.all(const Radius.circular(10)),
+                    const BorderRadius.all(const Radius.circular(10)),
                     color: fullColorTile),
                 child: Padding(
                     padding:
-                        const EdgeInsets.only(left: 30.0, top: 20, right: 10),
+                    const EdgeInsets.only(left: 30.0, top: 20, right: 10),
                     child: Row(
                       children: <Widget>[
                         Expanded(
@@ -164,7 +165,8 @@ Widget coloredTileHalfWidth(int index, Color color, BuildContext context) =>
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Page(
+                    builder: (context) =>
+                        Page(
                           index: index,
                         )),
               );
@@ -213,8 +215,8 @@ Widget coloredTileHalfWidth(int index, Color color, BuildContext context) =>
 /// [sizeIcon] specifies the size of the icon.
 ///
 /// Returns a icon in a circle.
-ClipOval circledIcon(
-        IconData icon, Color color, double sizeCircle, double sizeIcon) =>
+ClipOval circledIcon(IconData icon, Color color, double sizeCircle,
+    double sizeIcon) =>
     ClipOval(
         child: Container(
             color: color,
@@ -232,35 +234,38 @@ ClipOval circledIcon(
 /// are placed inside a rectangle with rounded edges.
 ///
 /// Returns a flexible containing a row of days.
-Widget calendarRow(Row row) => Flexible(
-    child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(width: 10, color: primaryColorBackground),
-          borderRadius: const BorderRadius.all(const Radius.circular(8)),
-        ),
-        margin: const EdgeInsets.all(4),
-        child: GestureDetector(
-          onTap: () => {},
-          child: Material(
-            elevation: 4,
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(const Radius.circular(8)),
-                color: fullColorTile,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(padding: const EdgeInsets.only(top: 10), child: row),
-                  SizedBox(
-                    height: 15,
-                  ),
-                ],
-              ),
+Widget calendarRow(Row row) =>
+    Flexible(
+        child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(width: 10, color: primaryColorBackground),
+              borderRadius: const BorderRadius.all(const Radius.circular(8)),
             ),
-          ),
-        )));
+            margin: const EdgeInsets.all(4),
+            child: GestureDetector(
+              onTap: () => {},
+              child: Material(
+                elevation: 4,
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(
+                        const Radius.circular(8)),
+                    color: fullColorTile,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                          padding: const EdgeInsets.only(top: 10), child: row),
+                      SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )));
 
 /// Create a day widget.
 ///
@@ -269,22 +274,23 @@ Widget calendarRow(Row row) => Flexible(
 /// [shape] specifies the shape.
 ///
 /// Return a container holding a [shape].
-Widget day(String name, CustomPainter shape) => Container(
+Widget day(String name, CustomPainter shape) =>
+    Container(
         child: Padding(
-      padding: const EdgeInsets.only(left: 6, right: 6),
-      child: CustomPaint(
-        painter: shape,
-        child: Container(
-          alignment: Alignment.center,
-          width: 50,
-          height: 50,
-          child: Text(
-            name,
-            style: dayLetter,
+          padding: const EdgeInsets.only(left: 6, right: 6),
+          child: CustomPaint(
+            painter: shape,
+            child: Container(
+              alignment: Alignment.center,
+              width: 50,
+              height: 50,
+              child: Text(
+                name,
+                style: dayLetter,
+              ),
+            ),
           ),
-        ),
-      ),
-    ));
+        ));
 
 /// Create a task.
 ///
@@ -294,7 +300,8 @@ Widget day(String name, CustomPainter shape) => Container(
 /// [checkbox] specifies the checkbox to use.
 ///
 /// Returns one task.
-Widget task(String name, Center checkbox) => Container(
+Widget task(String name, Center checkbox) =>
+    Container(
       decoration: BoxDecoration(
         border: Border.all(width: 5, color: primaryColorBackground),
         borderRadius: const BorderRadius.all(const Radius.circular(8)),
@@ -332,7 +339,7 @@ Widget task(String name, Center checkbox) => Container(
 ///
 /// Returns a tile that's able to open a specified website.
 Widget website(String name, String subtitle, String link, Color color,
-        IconData icon, int percentage) =>
+    IconData icon, int percentage) =>
     Container(
       decoration: BoxDecoration(
         border: Border.all(width: 5, color: primaryColorBackground),
@@ -414,7 +421,7 @@ void openBrowser(String link) async {
       url: link,
       options: ChromeSafariBrowserClassOptions(
           androidChromeCustomTabsOptions:
-              AndroidChromeCustomTabsOptions(addShareButton: false),
+          AndroidChromeCustomTabsOptions(addShareButton: false),
           iosSafariOptions: IosSafariOptions(barCollapsingEnabled: true)));
 }
 
@@ -424,10 +431,11 @@ void openBrowser(String link) async {
 /// thrown. In that case, nothing will happen.
 Future<void> openCalendar() async {
   if (Platform.isAndroid) {
-    AppAvailability.launchApp("com.google.android.calendar")
-        .then((_) {})
-        .catchError((err) {
-      // Do nothing as Google Calendar is not installed
-    });
+    bool isInstalled = await DeviceApps.isAppInstalled(
+        'com.google.android.calendar');
+    if (isInstalled != false)
+      DeviceApps.openApp('com.google.android.calendar');
+    else
+      print("Cannot open app");
   }
 }

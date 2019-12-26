@@ -4,7 +4,7 @@ description: TUM helper app
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -18,8 +18,7 @@ dependencies:
   # The following allows interaction with the google calendar app
   device_calendar: ^1.0.0
   # The following allows to open a existing app
-  flutter_appavailability: ^0.0.21
-
+  device_apps: ^1.0.9
 
 dev_dependencies:
   flutter_test:
