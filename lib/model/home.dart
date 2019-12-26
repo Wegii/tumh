@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Scaffold page = Scaffold(
-      backgroundColor: Color(0xFF1A1E21),
+      backgroundColor: primaryColorBackground,
       body: Stack(
         children: <Widget>[
           SingleChildScrollView(

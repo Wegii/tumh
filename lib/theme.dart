@@ -1,16 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Color firstColor = Color(0XFFFC4A1F);
-Color secondColor = Color(0XFFAF1055);
-Color tertiaryTextColor = Color(0XFFA7A7A7);
+Color primaryColorBackground = Color(0xFF1A1E21);
+Color primaryColorCheckbox = Color(0xFF464178);
+Color primaryColorRow = Color(0xFF7B778E);
+Color lectureColorRow = Color(0xFF123456);
+Color tutorialColorRow = Color(0xFF623456);
+Color homeworkColorRow = Color(0xFF934496);
+Color currentDayColorRow = Color(0xFF464178);
+Color fullColorTile = Color(0xFF272E32);
+Color defaultColorIcon = Colors.white;
+Color shadowColor = Color(0x66584b4b);
 
-BoxDecoration bord() {
-  return BoxDecoration(
-    border: Border.all(color: Colors.white, width: 1.5),
-    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-  );
-}
+TextStyle smallHeaderStyle =
+    TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 22);
+TextStyle extraLargeLetter =
+    TextStyle(color: Colors.white, fontSize: 55, fontWeight: FontWeight.w900);
+TextStyle largeLetter =
+    TextStyle(color: Colors.white, fontSize: 45, fontWeight: FontWeight.bold);
+TextStyle smallLetter = TextStyle(color: Colors.grey);
+TextStyle smallSubLetter =
+    TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w800);
+TextStyle mediumBoldLetter =
+    TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15);
+TextStyle mediumLetter = TextStyle(color: Colors.white, fontSize: 15);
+TextStyle dayLetter =
+    TextStyle(color: Colors.white, fontWeight: FontWeight.w800);
+TextStyle taskLetter =
+    TextStyle(color: Colors.white70, fontSize: 17, fontWeight: FontWeight.w700);
+TextStyle informationLetter =
+    TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold);
+TextStyle subInformationLetter =
+    TextStyle(color: Colors.white70, fontSize: 13, fontWeight: FontWeight.w700);
 
 TextStyle header = GoogleFonts.roboto(
     textStyle: TextStyle(
@@ -39,3 +60,10 @@ final colours = [
   Color(0xFF36E0B3),
   Color(0xFFF1A163),
 ];
+
+BoxDecoration bord() {
+  return BoxDecoration(
+    border: Border.all(color: Colors.white, width: 1.5),
+    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+  );
+}

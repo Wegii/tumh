@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:tumh/data/data.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
@@ -9,6 +8,7 @@ import 'package:flutter_appavailability/flutter_appavailability.dart';
 
 import 'package:tumh/model/page.dart';
 import 'package:tumh/model/common/browser.dart';
+import 'package:tumh/theme.dart';
 
 class RoundedImageBorder extends CustomPainter {
   final Color color;
@@ -42,19 +42,13 @@ class RecImageBorder extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint borderPaint = Paint()
-      ..strokeCap = StrokeCap.butt
-      ..style = PaintingStyle.fill
-      ..strokeWidth = 4.0
-      ..color = Color(0xFF464178);
-
     canvas.drawRRect(
       new RRect.fromLTRBAndCorners(0.0, 0.0, 50, 50,
           bottomLeft: Radius.circular(15),
           bottomRight: Radius.circular(15),
           topLeft: Radius.circular(15),
           topRight: Radius.circular(15)),
-      new Paint()..color = new Color(0xFF464178),
+      new Paint()..color = currentDayColorRow,
     );
   }
 
@@ -65,15 +59,15 @@ class RecImageBorder extends CustomPainter {
 }
 
 Widget coloredTileFullWidth(int day, String month, String title, String content,
-        Function function) =>
+        Function onTouch) =>
     Container(
         decoration: BoxDecoration(
-          border: Border.all(width: 10, color: Color(0xFF1A1E21)),
+          border: Border.all(width: 10, color: primaryColorBackground),
           borderRadius: const BorderRadius.all(const Radius.circular(8)),
         ),
         margin: const EdgeInsets.all(4),
         child: GestureDetector(
-          onTap: () => {function()},
+          onTap: () => {onTouch()},
           child: Material(
             elevation: 0,
             color: Color(0xff18181B),
@@ -82,7 +76,7 @@ Widget coloredTileFullWidth(int day, String month, String title, String content,
                 decoration: BoxDecoration(
                     borderRadius:
                         const BorderRadius.all(const Radius.circular(10)),
-                    color: Color(0xFF272E32)),
+                    color: fullColorTile),
                 child: Padding(
                     padding:
                         const EdgeInsets.only(left: 30.0, top: 20, right: 10),
@@ -97,34 +91,27 @@ Widget coloredTileFullWidth(int day, String month, String title, String content,
                                 children: <Widget>[
                                   Text(
                                     day.toString(),
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 45,
-                                        fontWeight: FontWeight.bold),
+                                    style: largeLetter,
                                   ),
                                 ],
                               ),
                               Text(
                                 month,
-                                style: TextStyle(color: Colors.grey),
+                                style: smallLetter,
                               ),
                               SizedBox(
                                 height: 16,
                               ),
                               Text(
                                 title,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
+                                style: mediumBoldLetter,
                               ),
                               SizedBox(
                                 height: 4,
                               ),
                               Text(
                                 content,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 15),
+                                style: mediumLetter,
                               )
                             ],
                           ),
@@ -137,7 +124,7 @@ Widget coloredTileFullWidth(int day, String month, String title, String content,
                                   height: 40,
                                 ),
                                 circledIcon(Icons.keyboard_arrow_right,
-                                    Color(0xFF1A1E21), 50, 30)
+                                    primaryColorBackground, 50, 30)
                               ],
                             ))
                       ],
@@ -154,7 +141,7 @@ ClipOval circledIcon(
             width: sizeCircle,
             child: Icon(
               icon,
-              color: Colors.white,
+              color: defaultColorIcon,
               size: sizeIcon,
             )));
 
@@ -162,7 +149,7 @@ Widget coloredTileHalfWidth(int index, Color color, BuildContext context) =>
     Expanded(
       child: Container(
           decoration: BoxDecoration(
-            border: Border.all(width: 10, color: Color(0xFF1A1E21)),
+            border: Border.all(width: 10, color: primaryColorBackground),
             borderRadius: const BorderRadius.all(const Radius.circular(8)),
           ),
           margin: const EdgeInsets.all(4),
@@ -189,27 +176,21 @@ Widget coloredTileHalfWidth(int index, Color color, BuildContext context) =>
                   children: <Widget>[
                     Text(
                       courses[index].name,
-                      style: TextStyle(color: Colors.white, fontSize: 15),
+                      style: mediumLetter,
                     ),
                     SizedBox(
                       height: 4,
                     ),
                     Text(
                       getDeadline(courses[index].dayHomework),
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 55,
-                          fontWeight: FontWeight.w900),
+                      style: extraLargeLetter,
                     ),
                     SizedBox(
                       height: 60,
                     ),
                     Text(
                       "Days until deadline",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w800),
+                      style: smallSubLetter,
                     ),
                   ],
                 ),
@@ -235,7 +216,7 @@ String getDeadline(int deadline) {
 Widget calendarRow(Row row) => Flexible(
     child: Container(
         decoration: BoxDecoration(
-          border: Border.all(width: 10, color: Color(0xFF1A1E21)),
+          border: Border.all(width: 10, color: primaryColorBackground),
           borderRadius: const BorderRadius.all(const Radius.circular(8)),
         ),
         margin: const EdgeInsets.all(4),
@@ -247,7 +228,7 @@ Widget calendarRow(Row row) => Flexible(
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(const Radius.circular(8)),
-                color: Color(0xFF272E32),
+                color: fullColorTile,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -273,7 +254,7 @@ Widget day(String name, CustomPainter shape) => Container(
           height: 50,
           child: Text(
             name,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
+            style: dayLetter,
           ),
         ),
       ),
@@ -281,14 +262,14 @@ Widget day(String name, CustomPainter shape) => Container(
 
 Widget task(String name, Center checkbox) => Container(
       decoration: BoxDecoration(
-        border: Border.all(width: 5, color: Color(0xFF1A1E21)),
+        border: Border.all(width: 5, color: primaryColorBackground),
         borderRadius: const BorderRadius.all(const Radius.circular(8)),
       ),
       margin: const EdgeInsets.all(4),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(30)),
-          color: Color(0xFF272E32),
+          color: fullColorTile,
         ),
         child: Row(
           children: <Widget>[
@@ -298,10 +279,7 @@ Widget task(String name, Center checkbox) => Container(
             ),
             Text(
               name,
-              style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold),
+              style: taskLetter,
             ),
           ],
         ),
@@ -312,7 +290,7 @@ Widget website(String name, String subtitle, String link, Color color,
         IconData icon, int percentage) =>
     Container(
       decoration: BoxDecoration(
-        border: Border.all(width: 5, color: Color(0xFF1A1E21)),
+        border: Border.all(width: 5, color: primaryColorBackground),
         borderRadius: const BorderRadius.all(const Radius.circular(8)),
       ),
       margin: const EdgeInsets.all(4),
@@ -339,7 +317,7 @@ Widget website(String name, String subtitle, String link, Color color,
                   children: <Widget>[
                     Padding(
                         padding: const EdgeInsets.only(left: 10),
-                        child: circledIcon(icon, Color(0x66584b4b), 45, 30))
+                        child: circledIcon(icon, shadowColor, 45, 30))
                   ],
                 ),
                 SizedBox(
@@ -347,20 +325,14 @@ Widget website(String name, String subtitle, String link, Color color,
                 ),
                 Text(
                   name,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold),
+                  style: informationLetter,
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700),
+                  style: subInformationLetter,
                 ),
               ],
             ),
@@ -369,7 +341,7 @@ Widget website(String name, String subtitle, String link, Color color,
       ),
     );
 
-openBrowser(String link) async {
+void openBrowser(String link) async {
   await browser.open(
       url: link,
       options: ChromeSafariBrowserClassOptions(

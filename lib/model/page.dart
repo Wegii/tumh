@@ -7,7 +7,6 @@ import 'package:tumh/model/common/helper.dart';
 class Page extends StatefulWidget {
   final int index;
 
-
   Page({@required this.index}) : super();
 
   @override
@@ -24,7 +23,7 @@ class _PageState extends State<Page> {
   @override
   Widget build(BuildContext context) {
     Scaffold page = Scaffold(
-      backgroundColor: Color(0xFF1A1E21),
+      backgroundColor: primaryColorBackground,
       body: Stack(
         children: <Widget>[
           SingleChildScrollView(
@@ -62,10 +61,7 @@ class _PageState extends State<Page> {
                   child: Padding(
                       padding: const EdgeInsets.only(left: 20),
                       child: Text("Available information",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 22))),
+                          style: smallHeaderStyle)),
                 ),
                 SizedBox(
                   height: 20,
@@ -85,11 +81,7 @@ class _PageState extends State<Page> {
                   alignment: Alignment.bottomLeft,
                   child: Padding(
                       padding: const EdgeInsets.only(left: 20),
-                      child: Text("Weekly tasks",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 22))),
+                      child: Text("Weekly tasks", style: smallHeaderStyle)),
                 ),
                 Container(
                     alignment: Alignment.bottomLeft,
@@ -117,15 +109,15 @@ class _PageState extends State<Page> {
               padding: const EdgeInsets.all(8.0),
               child: _isChecked[index]
                   ? Icon(
-                Icons.check_box,
-                size: 25.0,
-                color: Color(0xFF464178),
-              )
+                      Icons.check_box,
+                      size: 25.0,
+                      color: primaryColorCheckbox,
+                    )
                   : Icon(
-                Icons.check_box_outline_blank,
-                size: 25.0,
-                color: Color(0xFF464178),
-              ),
+                      Icons.check_box_outline_blank,
+                      size: 25.0,
+                      color: primaryColorCheckbox,
+                    ),
             ),
           )));
 
@@ -135,16 +127,16 @@ class _PageState extends State<Page> {
     if (course.linkLecture != null) {
       tiles.add(createContainer(website(
         "Lecture",
-        "",
+        "test 123",
         course.linkLecture,
-        colours[0 % colours.length],
+        colours[0],
         Icons.work,
         null,
       )));
     }
     if (course.linkTutorial != null) {
-      tiles.add(createContainer(website("Tutorial", "", course.linkTutorial,
-          colours[1 % colours.length], Icons.web, null)));
+      tiles.add(createContainer(website("Tutorial", "Moodle website",
+          course.linkTutorial, colours[1 % colours.length], Icons.web, null)));
     }
 
     if (course.linkStream != null) {
@@ -172,11 +164,12 @@ class _PageState extends State<Page> {
 
   Column createTasks(Course course) {
     List<Widget> tasks = new List<Widget>();
-
     int counter = 0;
+
     for (Task t in course.tasks) {
       _isChecked.add(t.isSet);
       tasks.add(task(t.name, createCheckbox(counter)));
+
       counter++;
     }
 
@@ -185,21 +178,18 @@ class _PageState extends State<Page> {
 
   Flexible createCalendarRow(Course course) {
     List<Widget> days = new List<Widget>();
-
-    // RoundedImageBorder() otherwise
-    // RecImageBorder() for today
     int weekdayNow = new DateTime.now().weekday - 1;
 
     for (int i = 0; i < _numberOfDays; i++) {
-      Color color = Color(0xFF7B778E);
+      Color color = primaryColorRow;
 
       // Special coloring for specific days
       if (course.daysLecture.contains(Day.values[i])) {
-        color = Color(0xFF123456);
+        color = lectureColorRow;
       } else if (course.dayTutorial == Day.values[i]) {
-        color = Color(0xFF623456);
-      } else if (course.dayHomework == Day.values[i]) {
-        color = Color(0xFF934496);
+        color = tutorialColorRow;
+      } else if (course.dayHomework == i) {
+        color = homeworkColorRow;
       }
 
       if (i != weekdayNow) {
