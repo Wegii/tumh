@@ -1,8 +1,10 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import '../../data/parser/moodle.dart';
 
-import 'package:requests/requests.dart';
+/// Defines the browser object with which allows interaction with the native
+/// browser
+final ChromeSafariBrowser browser = new ChromeBrowser(new Browser());
 
+/// Fallback browser.
 class Browser extends InAppBrowser {
   @override
   void onLoadError(String url, int code, String message) {
@@ -10,25 +12,16 @@ class Browser extends InAppBrowser {
   }
 }
 
+/// Create custom browser that interacts with the native browser.
 class ChromeBrowser extends ChromeSafariBrowser {
-  var moodle;
-
   ChromeBrowser(browserFallback) : super(bFallback: browserFallback);
 
   @override
-  void onClosed() async {
-    moodle = new MoodleAPI();
+  void onClosed() async {}
 
-    print(await moodle.getMoodleSession());
-
-    var r1 = await Requests.post("https://moodle.tum.de/my/",
-        json: {"MoodleSession": await moodle.getMoodleSession()});
-  }
-
+  /// Debug method to print long strings.
   void printWrapped(String text) {
     final pattern = new RegExp('.{1,800}'); // 800 is the size of each chunk
     pattern.allMatches(text).forEach((match) => print(match.group(0)));
   }
 }
-
-final ChromeSafariBrowser browser = new ChromeBrowser(new Browser());

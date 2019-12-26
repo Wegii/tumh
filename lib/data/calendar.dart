@@ -1,6 +1,7 @@
 import 'package:device_calendar/device_calendar.dart';
 import 'package:tumh/data/data.dart';
 
+/// A helper class to interact with a calendar app.
 class CalendarInteraction {
   DeviceCalendarPlugin deviceCalendarPlugin = DeviceCalendarPlugin();
 
@@ -28,7 +29,7 @@ class CalendarInteraction {
     List<EventDisplay> events = new List<EventDisplay>();
 
     for (Calendar c in calendars) {
-      final dateStart = DateTime.now().add(new Duration(days:offset));
+      final dateStart = DateTime.now().add(new Duration(days: offset));
       final dateEnd =
           new DateTime(dateStart.year, dateStart.month, dateStart.day + 1);
 
@@ -50,6 +51,7 @@ class CalendarInteraction {
     return EventDisplay(
         title: event.title,
         content: content,
-        start: event.start.hour.toString() + ":" + event.start.minute.toString());
+        start:
+            event.start.hour.toString() + ":" + event.start.minute.toString());
   }
 }

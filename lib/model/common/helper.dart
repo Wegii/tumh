@@ -10,23 +10,27 @@ import 'package:tumh/model/page.dart';
 import 'package:tumh/model/common/browser.dart';
 import 'package:tumh/theme.dart';
 
-class RoundedImageBorder extends CustomPainter {
+/// Create a colored and filled circle.
+class RoundedCircle extends CustomPainter {
+  /// [color] defines the fill color of the circle.
   final Color color;
 
-  RoundedImageBorder({this.color});
+  RoundedCircle({this.color});
 
   @override
   void paint(Canvas canvas, Size size) {
-    Offset center = Offset(size.width / 2, size.height / 2);
-
     Paint borderPaint = Paint()
-      ..strokeCap = StrokeCap.butt
       ..style = PaintingStyle.fill
-      ..strokeWidth = 4.0
       ..color = color;
 
-    canvas.drawArc(Rect.fromCircle(center: center, radius: size.width / 2),
-        math.radians(-90), math.radians(360), false, borderPaint);
+    canvas.drawArc(
+        Rect.fromCircle(
+            center: Offset(size.width / 2, size.height / 2),
+            radius: size.width / 2),
+        math.radians(-90),
+        math.radians(360),
+        false,
+        borderPaint);
   }
 
   @override
@@ -35,11 +39,8 @@ class RoundedImageBorder extends CustomPainter {
   }
 }
 
-class RecImageBorder extends CustomPainter {
-  final bool isOnline;
-
-  RecImageBorder({this.isOnline});
-
+/// Create a colored and filled rectangle with rounded edges.
+class RoundedRectangle extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     canvas.drawRRect(
@@ -58,6 +59,15 @@ class RecImageBorder extends CustomPainter {
   }
 }
 
+/// Create a tile that spans the width of the screen
+///
+/// [day] specifies the day of the month.
+/// [month] specifies the name of the month.
+/// [title] specifies the smaller title of the tile.
+/// [content] specifies the subtitle of the tile.
+/// [onTouch] specifies the operation to perform when the tile is clicked.
+///
+/// Returns a container containing the tile.
 Widget coloredTileFullWidth(int day, String month, String title, String content,
         Function onTouch) =>
     Container(
@@ -132,19 +142,15 @@ Widget coloredTileFullWidth(int day, String month, String title, String content,
           ),
         ));
 
-ClipOval circledIcon(
-        IconData icon, Color color, double sizeCircle, double sizeIcon) =>
-    ClipOval(
-        child: Container(
-            color: color,
-            height: sizeCircle,
-            width: sizeCircle,
-            child: Icon(
-              icon,
-              color: defaultColorIcon,
-              size: sizeIcon,
-            )));
-
+/// Create a tile that spans half the width of the display if placed together
+/// with another such tile.
+///
+/// [index] defines the index of the course from where to take the information
+/// from.
+/// [color] specifies the background color of the tile.
+/// [context] used to open another page, when the tile is touched.
+///
+/// Returns a expanded widget with the tile inside.
 Widget coloredTileHalfWidth(int index, Color color, BuildContext context) =>
     Expanded(
       child: Container(
@@ -199,20 +205,33 @@ Widget coloredTileHalfWidth(int index, Color color, BuildContext context) =>
           )),
     );
 
-String getDeadline(int deadline) {
-  DateTime now = DateTime.now();
+/// Create a icon placed in a filled circle.
+///
+/// [icon] specifies which icon to place inside the circle.
+/// [color] specifies the fill color of the circle.
+/// [sizeCircle] specifies the width and height of the circle
+/// [sizeIcon] specifies the size of the icon.
+///
+/// Returns a icon in a circle.
+ClipOval circledIcon(
+        IconData icon, Color color, double sizeCircle, double sizeIcon) =>
+    ClipOval(
+        child: Container(
+            color: color,
+            height: sizeCircle,
+            width: sizeCircle,
+            child: Icon(
+              icon,
+              color: defaultColorIcon,
+              size: sizeIcon,
+            )));
 
-  if (deadline != null) {
-    if (now.weekday > deadline) {
-      return (deadline + (7 - now.weekday)).toString();
-    } else {
-      return (deadline - now.weekday).toString();
-    }
-  }
-
-  return "/";
-}
-
+/// Create a row containing different days
+///
+/// [row] specifies the different day widgets placed inside the row. These days
+/// are placed inside a rectangle with rounded edges.
+///
+/// Returns a flexible containing a row of days.
 Widget calendarRow(Row row) => Flexible(
     child: Container(
         decoration: BoxDecoration(
@@ -243,6 +262,13 @@ Widget calendarRow(Row row) => Flexible(
           ),
         )));
 
+/// Create a day widget.
+///
+/// Creates a colored and filled [shape] containing the name of a day.
+/// [name] specifies the name to display inside the [shape].
+/// [shape] specifies the shape.
+///
+/// Return a container holding a [shape].
 Widget day(String name, CustomPainter shape) => Container(
         child: Padding(
       padding: const EdgeInsets.only(left: 6, right: 6),
@@ -260,6 +286,14 @@ Widget day(String name, CustomPainter shape) => Container(
       ),
     ));
 
+/// Create a task.
+///
+/// Creates one task. This task is comprised of a checkbox and the actual task
+/// itself.
+/// [name] specifies the name of the task.
+/// [checkbox] specifies the checkbox to use.
+///
+/// Returns one task.
 Widget task(String name, Center checkbox) => Container(
       decoration: BoxDecoration(
         border: Border.all(width: 5, color: primaryColorBackground),
@@ -286,6 +320,17 @@ Widget task(String name, Center checkbox) => Container(
       ),
     );
 
+/// Create a tile that opens [link] when clicked.
+///
+/// This tile opens [link] using the native browser.
+/// [name] specifies the name of the tile.
+/// [subtitle] specifies a subtitle place under [name].
+/// [link] specifies the link to open.
+/// [color] specifies the background color of the tile.
+/// [icon] specifies the icon to use.
+/// [percentage] unused.
+///
+/// Returns a tile that's able to open a specified website.
 Widget website(String name, String subtitle, String link, Color color,
         IconData icon, int percentage) =>
     Container(
@@ -341,6 +386,29 @@ Widget website(String name, String subtitle, String link, Color color,
       ),
     );
 
+/// Get the days until a specified deadline
+///
+/// [deadline] specifies a day in the week as number, e.g. 0 stands for Monday,
+/// etc.
+///
+/// Returns days until deadline.
+String getDeadline(int deadline) {
+  DateTime now = DateTime.now();
+
+  if (deadline != null) {
+    if (now.weekday > deadline) {
+      return (deadline + (7 - now.weekday)).toString();
+    } else {
+      return (deadline - now.weekday).toString();
+    }
+  }
+
+  return "/";
+}
+
+/// Open a link using the native browser.
+///
+/// [link] specifies the link to open.
 void openBrowser(String link) async {
   await browser.open(
       url: link,
@@ -350,6 +418,10 @@ void openBrowser(String link) async {
           iosSafariOptions: IosSafariOptions(barCollapsingEnabled: true)));
 }
 
+/// Open the Google Calendar app if installed.
+///
+/// Attention: If Google Calendar is not installed, no exceptions will be
+/// thrown. In that case, nothing will happen.
 Future<void> openCalendar() async {
   if (Platform.isAndroid) {
     AppAvailability.launchApp("com.google.android.calendar")
