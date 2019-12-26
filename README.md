@@ -6,6 +6,8 @@ Many courses at university choose to use their own website, thus making the life
 amount of websites and creating bookmarks for each website simplifies this workload, but does not make it easy.
 This experimental App written with Flutter thus helps dealing with this process in a organized way.
 
+![Image description](demo.png)
+
 ## Features
 * Integration with native calendar app
 * Integration with native browser
